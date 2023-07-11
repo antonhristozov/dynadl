@@ -139,6 +139,27 @@ The run.sh script is also available, as well as several files that have a .expr 
 
 The language was developed and tested in Linux. However, the dependencies on header-only libraries listed above make it possible to port it to other platforms, such as Mac and Windows.
 
+## Citation
+
+If you plan to cite this work, here is a BibTeX entry:
+
+<pre>
+@article{Hristozov2023Dissertation,
+	title={Resilient Architectures Through Dynamic Management of Software Components},
+	author={Hristozov, Anton},
+	journal={Purdue},
+	volume={},
+	pages={1 - 202},
+	year={2023}
+}
+</pre>
+
+A more thorough discussion can be found in the cited work above, especially in the chapter devoted to dynADL and the appendices.
+
+## License
+
+The license used for this project is GPL 3.0, which is the most restrictive of the licenses of the used components. This is determined by the license used by the Boost libraries.
+
 ## Disclaimer
 
 The code in this repository is experimental. Please be sure to use caution and do not expect commercial-grade software quality. This was done as experimental development while writing one of the chapters of my dissertation at Purdue University.
