@@ -10,39 +10,40 @@
                |___/
 
 ## Overview
-dynADL is a high level architecture definition language that supports dynamic behavior of the genrated systems and their components. It allows for the generation of system of systems.
-For a simple example take a look at unit.expr file.
-The language supports functions, variable defintions and some operators.
-The Antlr grammar and the C++ parser is included in the project. This makes the language extensible.
+dynADL is a high-level architecture definition language that supports dynamic behavior of the generated systems and their components. It allows for the generation of system of systems (SoS).
+For a simple example of the syntax, take a look at unit.expr file.
+The language supports functions, variable definitions, and some operators.
+The Antlr grammar and the C++ parser are included in the project. This makes the language extensible for the curious developer.
 
 ## Prerequisites
-dynADL depends on some popular, header only C++ libraries. They need to be installed first:
+dynADL depends on some popular, header-only C++ libraries. They need to be installed first:
 
 * nlohmann/json.hpp
 * bitsery
 * boost (message queue)
 
 ## Build
-Using the Makefile one can execute: 
+The instructions are for Linux platforms and more specifically, have been tested on Ubuntu 20.04.
+Using the Makefile, one can execute the following: 
 *make*       - to build
 *make clean* - to clean the generated files.
 
 ## VS Code
 There is a .vscode folder where the launch.json and tasks.json files reside.
-To start Visual studio code, just type:
+To start Visual Studio code, just type:
 
 *code .*
-Debugging of the grammar can be done thorugh the installation of the Antlr extension for VS Code.
+Debugging of the grammar can be done through the installation of the Antlr extension for VS Code.
 Debugging of the generated C++ code can also be done within VS Code.
 The launch.json file has two targets, one for the grammar and one for the C++ executable.
 
 ## Run
-From the command line one can use the shell script run.sh
+From the command line, one can use the shell script run.sh
 
 *./dynadl unit.expr [--generate | --runtime ] [posix | ros | px4]*
 
 
-Depending on the structure of the desired architecture a tree will be generated that contains source code files:
+Depending on the structure of the desired architecture, a tree will be generated that contains source code files:
 
 <pre>
 package1
