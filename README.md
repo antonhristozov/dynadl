@@ -50,8 +50,8 @@ The grammar is in dynadl.g4 file.
   <li>dynadl.g4 - Antlr grammar file</li>
 </ul> 
 
-## Run
-From the command line, one can use the shell script run.sh
+## Running
+The general syntax of the dynadl executable is given below:
 
 *./dynadl unit.expr [--generate | --runtime ] [posix | ros | px4]*
 
