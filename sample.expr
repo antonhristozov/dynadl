@@ -1,0 +1,267 @@
+/* A sample file illustrating the syntax of dynadl */
+
+
+/*
+    Start with all definitions of all independent parts
+    of component interfaces
+*/
+
+message message1 {
+  string str,
+  int16 i
+}
+
+message message2 {
+  string str,
+  float32 f
+}
+
+message message3 {
+  int32 i,
+  string s
+}
+
+service service1 {
+    in string str,
+    out int32 i,
+    out string result
+}
+
+service service2 {
+    in int32 i,
+    out float32 f
+}
+
+service service3 {
+    in int32 i,
+    out string t
+}
+
+action action1 {
+   in int32 par1,
+   out string s,
+   update string r
+}
+
+action action2 {
+   in double par1,
+   out float32 par2,
+   out string f,
+   update int16 result
+}
+
+action action3 {
+   in float32 par2,
+   out string r,
+   update int16 result
+}
+
+component configuration params{
+  string param1 = "str",
+  int32 param2 = 0,
+  float32 param3 = 2.71,
+  double param4 = 3.14
+}
+
+component state state_variables {
+  float32 position,
+  float32 velocity,
+  float32 acceleration,
+  char mode
+}
+
+diagnostics service diagnostics1{
+   in string result,
+   out int32 r,
+   out string cmd
+}
+
+
+/*
+   We start defining the system of systems where each package
+   is considered a SoS and has constituent system.
+   Each system has some global parameters, components and possible
+   configurations, specified in this order.
+*/
+
+package package1{
+   id 1
+   description "We have two systems"
+   comment "package1 comment"
+   // System1
+   system system1
+      {
+      id "1"
+      description "Cooling system"
+      comment "system1 comment"
+      component component11{
+         interface i11{
+            send message message1,
+            receive message message2,
+            send service service1,
+            receive service service2,
+            send action  action1,
+            send action  action2,
+            component configuration params,
+            component state state_variables,
+            diagnostics diagnostics1
+         }
+      },
+      component component12{
+         interface i12{
+            send message message1,
+            send service service1,
+            receive action  action1,
+            component configuration params,
+            component state state_variables
+         }
+      },
+      component component13{
+         interface i13{
+            send message message3,
+            send service service3,
+            receive action  action3,
+            component configuration params,
+            component state state_variables
+         }
+      },
+      component component14{
+         interface i14{
+            send message message3,
+            receive service service3,
+            send action  action3,
+            component configuration params,
+            component state state_variables
+         }
+      },
+      system configuration sys_config1{
+         component component11
+         component component12
+         component component13
+         component component14
+      },
+      system configuration sys_config2{
+         component component11
+         component component13
+         component component14
+      },
+   }, // end system1
+   // System2
+   system system2
+      {
+      id "2"
+      description "Heating system"
+      comment "system2 comment"
+      component component21{
+         interface i21{
+            send message message2,
+            send service service2,
+            receive action  action2,
+            component configuration params21,
+            component state state_variables21
+            }
+      },
+      component component22{
+         interface i22{
+            send message message1,
+            receive service service1,
+            send action  action1,
+            component configuration params22,
+            component state state_variables22
+         }
+      },
+      component component23{
+         interface i23{
+            send message message1,
+            receive service service1,
+            send action  action1,
+            component configuration params22,
+            component state state_variables22
+         }
+      },
+      system configuration sys_config3{
+         component component21
+         component component22
+      },
+      system configuration sys_config4{
+         component component21
+         component component23
+      },
+   } // end system2
+} // end package1
+
+/* Functions can be used to wait on a particular event */
+function f(){
+   delay 1
+   print "Print from function"
+   wait event event1
+}
+
+/* Functions can be called from timers once or periodically */
+function t(){
+   print "Timer function"
+}
+
+/* Functions start in a separate thread when called with spawn */
+function fsp(){
+   print "Function started through spawn command"
+}
+
+function fcall(){
+   print "Function to be called"
+}
+
+/*  This is the main function where the run-time functionality starts */
+function main(){
+     spawn fsp
+     select package package1
+     select system system1
+     load  component13
+     load  component14
+     swap component13 component14 at 3.14
+     run component14
+     delay 0.5
+     event event1 f
+     select system system2
+     load component21
+     load component23
+     run component21
+     run component23
+     stop component21
+     stop component23
+     unload component21
+     unload component23
+     select system system2
+     load component22
+     load component23
+     swap component22 component23 once
+     save component22
+     restore component22
+     call fcall
+     timer periodic 1.5 t
+     timer single 2 t
+     int16 k = 10
+     while(k)
+     do
+        delay 1
+        print "From within while"
+        dec k
+     endwhile
+     exec "date"
+     int16 i = 2
+     inc i
+     if(i)
+     then
+        print "From within if"
+        print "One more"
+     else
+        print "From within else"
+     endif
+     if(i)
+     then
+        print "A second if"
+     endif
+     log "Log starts" "logfile.log"
+     log "Logging more text" "logfile.log"
+     log "Log ends" "logfile.log"
+}

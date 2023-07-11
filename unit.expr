@@ -1,0 +1,170 @@
+/* A sample file illustrating the syntax of dynadl */
+
+
+/*
+    Start with all definitions of all independent parts
+    of component interfaces
+*/
+
+message message1 {
+  string str,
+  int16 i
+}
+
+service service1 {
+    in string str,
+    out int32 i,
+    out string result
+}
+
+action action1 {
+   in int32 par1,
+   out string s,
+   update string r
+}
+
+
+component configuration params{
+  string param1 = "str" ,
+  int32 param2  = 10,
+  float32 param3  = 2.71,
+  double param4   = 3.14 
+}
+
+component state state_variables {
+  float32 position,
+  float32 velocity,
+  float32 acceleration,
+  string mode
+}
+
+diagnostics service diagnostics1{
+   in string cmd,
+   in int32 r,
+   out string result
+}
+
+
+/*
+   We start defining the system of systems where each package
+   is considered a SoS and has constituent system.
+   Each system has some global parameters, components and possible
+   configurations, specified in this order.
+*/
+
+package package1{
+   id 1
+   description "We have two systems"
+   comment "package1 comment"
+   // System1
+   system system1{
+      id 1
+      description "Cooling system"
+      comment "system1 comment"
+      component component11{
+         interface i11{
+            send message message1,
+            send service service1,
+            send action  action1,
+            component configuration params,
+            component state state_variables,
+            diagnostics diagnostics1
+         }
+      },
+      component component12{
+         interface i12{
+            send message message1,
+            send service service1,
+            receive action  action1,
+            component configuration params,
+            component state state_variables
+         }
+      },
+      component component13{
+         interface i13{
+            send message message1,
+            send service service1,
+            receive action  action1,
+            component configuration params,
+            component state state_variables
+         }
+      },
+      system configuration sys_config1{
+         component component11
+         component component12
+         component component13
+      }
+   } // end system1
+} // end package1
+
+/* Functions can be used to wait on a particular event */
+function f(){
+   print "Print from function f()"
+}
+
+
+/* Functions start in a separate thread when called with spawn */
+function fsp(){
+   print "Function started through spawn command"
+}
+
+/* Functions can be called from timers once or periodically */
+function t(){
+   print "Timer function"
+}
+
+/* Functions can be called from events */
+function evf(){
+   print "Event function"
+}
+
+/*  This is the main function where the run-time functionality starts */
+function main(){
+     int16 k = 10
+     inc k
+     print k
+     dec k
+     print k
+     if(k) then
+        print "In if"
+     endif
+     int16 j = 3
+     while(j) do
+        print j
+        delay 0.1
+        dec j
+     endwhile
+     int16 i = 0
+     if(i) then
+        print "In if i"
+     else
+        print "In else i" 
+     endif
+     call f()
+     spawn fsp()
+     timer single 2 t
+     wait event1 evf()
+     select package package1
+     select system system1
+     load  component11
+     load  component12
+     load  component13
+     start component11
+     start component12
+     start component13
+     stop  component11
+     save component11
+     restore component11
+     save component12
+     restore component12
+     save component13
+     restore component13
+     unload component11
+     stop component13
+     event event1
+     swap component12 component13 once
+     unload component12 
+     unload component13
+     timer periodic 1.5 t
+     delay 15
+}

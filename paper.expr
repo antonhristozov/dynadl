@@ -1,0 +1,120 @@
+message message1 {
+  string loc,
+  int32 lat,
+  int32 lon
+}
+
+service service1 {
+    in string cmd,
+    out int16 cmd_id,
+    out char cmd_status
+}
+
+action action1 {
+   in int32 cmd,
+   out string response,
+   update string refresh
+}
+
+
+component configuration params{
+  string param1 = "my_system" ,
+  int32 param2  = 1,
+  float32 param3  = 2.2,
+  double param4   = 3.3 
+}
+
+component state state_variables {
+  float32 pos,
+  float32 vel,
+  float32 acc,
+  string attitude
+}
+
+diagnostics service diagnostics1{
+   in string cmd,
+   in int32 cmd_id,
+   out string diag_status
+}
+
+
+/*
+   We start defining the system of systems where each package
+   is considered a SoS and has constituent system.
+   Each system has some global parameters, components and possible
+   configurations, specified in this order.
+*/
+
+package main_package{
+   id 1
+   description "Main package"
+   comment "Main package comment"
+   // System1
+   system system1{
+      id 1
+      description "system1 description"
+      comment "system1 comment"
+      component sys1_comp11{
+         interface iface11{
+            send message message1,
+            send service service1,
+            send action  action1,
+            component configuration params,
+            component state state_variables,
+            diagnostics diagnostics1
+         }
+      },
+      component sys1_comp12{
+         interface iface12{
+            send message message1,
+            send service service1,
+            receive action  action1,
+            component configuration params,
+            component state state_variables
+         }
+      },
+ 
+      system configuration sys_config1{
+         component sys1_comp11
+         component sys1_comp12
+      }
+   } // end system1
+} // end package1
+
+/* Functions can be used to wait on a particular event */
+function function1(){
+   print "Print from function f()"
+}
+
+function timer_function(){
+   print "Timer function"
+}
+
+function event_function(){
+   print "Event function"
+}
+
+
+/*  This is the main function where the run-time functionality starts */
+function main(){
+     call function1()
+     timer single 2 timer_function
+     wait event1 event_function()
+     select package main_package
+     select system system1
+     load  sys1_comp11
+     load  sys1_comp12
+     start sys1_comp11
+     start sys1_comp12
+     stop  sys1_comp11
+     save sys1_comp11
+     restore sys1_comp11
+     save sys1_comp12
+     restore sys1_comp12
+     unload sys1_comp11
+     event event1
+     swap sys1_comp11 sys1_comp12 once
+     unload sys1_comp12 
+     timer periodic 1.5 timer_function
+     delay 5
+}
