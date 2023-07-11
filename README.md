@@ -10,19 +10,19 @@
                |___/
 
 ## Overview
-dynADL is a high-level architecture definition language that supports dynamic behavior of the generated systems and their components. It allows for the generation of system of systems (SoS).
-For a simple example of the syntax, take a look at unit.expr file.
+dynADL is a high-level architecture definition language that supports dynamic behavior of the generated systems and their components. It allows for the generation of code for system of systems (SoS) and single systems.
+For a simple example of the syntax, take a look at unit.expr file or any of the .expr files.
 The language supports functions, variable definitions, and some operators.
 The Antlr grammar and the C++ parser are included in the project. This makes the language extensible for the curious developer.
 
 ## Prerequisites
-dynADL depends on some popular, header-only C++ libraries. They need to be installed first:
+dynADL depends on some popular, header-only C++ libraries. They need to be installed first before attempting to build the code:
 
 * nlohmann/json.hpp
 * bitsery
 * boost (message queue)
 
-## Build
+## The Build
 The instructions are for Linux platforms and, more specifically, have been tested on Ubuntu 20.04.
 Using the Makefile, one can execute the following: 
 <pre>
@@ -31,7 +31,7 @@ Using the Makefile, one can execute the following:
 </pre>            
 This will create the dynADL parser, code generator, and run-time functionality.
 
-## VS Code
+## VS Code for Development
 There is a .vscode folder where the launch.json and tasks.json files reside.
 To start Visual Studio code, just type:
 
@@ -55,8 +55,8 @@ The general syntax of the dynadl executable is given below:
 
 *./dynadl unit.expr [--generate | --runtime ] [posix | ros | px4]*
 
-Please note that, at present, the Posix platform is fully supported.
-Extensions for ROS and PX4 are possible and most likely easy to materialize.
+Currently, the Posix platform is fully supported, and ROS and PX4 are not yet added as platforms.
+Extensions for ROS and PX4 are very feasible.
 
 Depending on the structure of the desired architecture, a tree will be generated that contains source code files:
 
