@@ -55,6 +55,9 @@ The general syntax of the dynadl executable is given below:
 
 *./dynadl unit.expr [--generate | --runtime ] [posix | ros | px4]*
 
+Please note that, at present, the Posix platform is fully supported.
+Extensions for ROS and PX4 are possible and most likely easy to materialize.
+
 Depending on the structure of the desired architecture, a tree will be generated that contains source code files:
 
 <pre>
@@ -136,6 +139,9 @@ The run.sh script is also available, as well as several files that have a .expr 
 
 The language was developed and tested in Linux. However, the dependencies on header-only libraries listed above make it possible to port it to other platforms, such as Mac and Windows.
 
+## Disclaimer
+
+The code in this repository is experimental. Please be sure to use caution and do not expect commercial-grade software quality. This was done as experimental development while writing one of the chapters of my dissertation at Purdue University.
 
 ## Author
 
