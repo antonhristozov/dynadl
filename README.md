@@ -25,8 +25,10 @@ dynADL depends on some popular, header-only C++ libraries. They need to be insta
 ## Build
 The instructions are for Linux platforms and, more specifically, have been tested on Ubuntu 20.04.
 Using the Makefile, one can execute the following: 
+<pre>
 *make*       - to build
-*make clean* - to clean the generated files.
+*make clean* - to clean the generated files.            
+</pre>            
 This will create the dynADL parser, code generator, and run-time functionality.
 
 ## VS Code
@@ -34,9 +36,19 @@ There is a .vscode folder where the launch.json and tasks.json files reside.
 To start Visual Studio code, just type:
 
 *code .*
-Debugging of the grammar can be done through the installation of the Antlr extension for VS Code.
+Debugging of the grammar can be done by installing the Antlr extension for VS Code.
 Debugging of the generated C++ code can also be done within VS Code.
 The launch.json file has two targets, one for the grammar and one for the C++ executable.
+The grammar is in dynadl.g4 file.
+
+## Files 
+<ul>
+  <li>dynadl.cpp - main file</li>
+  <li>dynadlWalkListener.h and .cpp - parse tree walker files </li>
+  <li>dynadlDataManager.h and .cpp - utility files for the implementation of grammatical constructs </li>
+  <li>dataTypes.h - Common data types file</li>
+  <li>dynadl.g4 - Antlr grammar file</li>
+</ul> 
 
 ## Run
 From the command line, one can use the shell script run.sh
