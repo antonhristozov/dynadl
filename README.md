@@ -23,10 +23,11 @@ dynADL depends on some popular, header-only C++ libraries. They need to be insta
 * boost (message queue)
 
 ## Build
-The instructions are for Linux platforms and more specifically, have been tested on Ubuntu 20.04.
+The instructions are for Linux platforms and, more specifically, have been tested on Ubuntu 20.04.
 Using the Makefile, one can execute the following: 
 *make*       - to build
 *make clean* - to clean the generated files.
+This will create the dynADL parser, code generator, and run-time functionality.
 
 ## VS Code
 There is a .vscode folder where the launch.json and tasks.json files reside.
@@ -41,7 +42,6 @@ The launch.json file has two targets, one for the grammar and one for the C++ ex
 From the command line, one can use the shell script run.sh
 
 *./dynadl unit.expr [--generate | --runtime ] [posix | ros | px4]*
-
 
 Depending on the structure of the desired architecture, a tree will be generated that contains source code files:
 
@@ -103,6 +103,13 @@ Manual changes can be done based on this structure.
 └── state.o
 </pre>
 
+The two main uses of the tool are to:
+
+<ul>
+  <li>Generate Posix compliant code</li>
+  <li>Execute the generated code</li>
+</ul> 
+
 Example of code generation:
 
 *./dynadl unit.expr --generate posix*
@@ -111,8 +118,18 @@ Example of running the generated and compiled code:
 
 *./dynadl unit.expr --runtime posix*
 
+The run.sh script is also available, as well as several files that have a .expr extension and contain valid dynADL code.
+
+## Portability
+
+The language was developed and tested in Linux. However, the dependencies on header-only libraries listed above make it possible to port it to other platforms, such as Mac and Windows.
+
+
+## Author
+
 <pre>
-Author: Anton D. Hristozov 
+Anton D. Hristozov 
 Email: ahristoz@purdue.edu
+Pittsburgh, PA
 </pre>
 
