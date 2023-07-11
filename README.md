@@ -26,8 +26,8 @@ dynADL depends on some popular, header-only C++ libraries. They need to be insta
 The instructions are for Linux platforms and, more specifically, have been tested on Ubuntu 20.04.
 Using the Makefile, one can execute the following: 
 <pre>
-*make*       - to build
-*make clean* - to clean the generated files.            
+make       - to build
+make clean - to clean the generated files.            
 </pre>            
 This will create the dynADL parser, code generator, and run-time functionality.
 
